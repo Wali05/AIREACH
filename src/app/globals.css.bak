@@ -1,0 +1,276 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+    font-family: "pricedown";
+    src: url("/pricedown.otf");
+}
+
+/* Futuristic text styles */
+.text-glow {
+    text-shadow: 0 0 10px rgba(138, 75, 255, 0.5), 0 0 20px rgba(72, 209, 204, 0.3);
+}
+
+/* Futuristic animations */
+@keyframes pulse {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.7;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes bounce {
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+@keyframes glowPulse {
+    0% {
+        filter: drop-shadow(0 0 5px rgba(192, 132, 252, 0.5));
+    }
+    50% {
+        filter: drop-shadow(0 0 15px rgba(192, 132, 252, 0.8));
+    }
+    100% {
+        filter: drop-shadow(0 0 5px rgba(192, 132, 252, 0.5));
+    }
+}
+
+@keyframes shimmer {
+    0% {
+        transform: translateX(-100%);
+    }
+    20%,
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+
+/* Futuristic button with shimmer effect */
+
+.btn-shimmer {
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-shimmer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    transform: translateX(-100%);
+    animation: shimmer 3s infinite;
+}
+
+:root {
+    /* Font variables */
+    --font-futuristic: var(--font-orbitron);
+    --font-futuristic-body: var(--font-space-grotesk);
+    --font-futuristic-nav: var(--font-rajdhani);
+    --primary: #6c63ff;
+    --primary-hover: #5046e5;
+    --card: #18181b;
+    --card-hover: #27272a;
+    --border: #2e2e36;
+    --input: #27272a;
+    --background: #080010;
+    --foreground: #FFFFFF;
+}
+
+body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: "pricedown", Arial, sans-serif;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+}
+
+@layer base {
+    * {
+        border-color: var(--border);
+    }
+    body {
+        background-color: var(--background);
+        color: var(--foreground);
+    }
+     :root {
+        --background: 0 0% 100%;
+        --foreground: 0 0% 3.9%;
+        --card: 0 0% 100%;
+        --card-foreground: 0 0% 3.9%;
+        --popover: 0 0% 100%;
+        --popover-foreground: 0 0% 3.9%;
+        --primary: 0 0% 9%;
+        --primary-foreground: 0 0% 98%;
+        --secondary: 0 0% 96.1%;
+        --secondary-foreground: 0 0% 9%;
+        --muted: 0 0% 96.1%;
+        --muted-foreground: 0 0% 45.1%;
+        --accent: 0 0% 96.1%;
+        --accent-foreground: 0 0% 9%;
+        --destructive: 0 84.2% 60.2%;
+        --destructive-foreground: 0 0% 98%;
+        --border: 0 0% 89.8%;
+        --input: 0 0% 89.8%;
+        --ring: 0 0% 3.9%;
+        --chart-1: 12 76% 61%;
+        --chart-2: 173 58% 39%;
+        --chart-3: 197 37% 24%;
+        --chart-4: 43 74% 66%;
+        --chart-5: 27 87% 67%;
+        --radius: 0.5rem;
+    }
+    .dark {
+        --background: 0 0% 3.9%;
+        --foreground: 0 0% 98%;
+        --card: 0 0% 3.9%;
+        --card-foreground: 0 0% 98%;
+        --popover: 0 0% 3.9%;
+        --popover-foreground: 0 0% 98%;
+        --primary: 0 0% 98%;
+        --primary-foreground: 0 0% 9%;
+        --secondary: 0 0% 14.9%;
+        --secondary-foreground: 0 0% 98%;
+        --muted: 0 0% 14.9%;
+        --muted-foreground: 0 0% 63.9%;
+        --accent: 0 0% 14.9%;
+        --accent-foreground: 0 0% 98%;
+        --destructive: 0 62.8% 30.6%;
+        --destructive-foreground: 0 0% 98%;
+        --border: 0 0% 14.9%;
+        --input: 0 0% 14.9%;
+        --ring: 0 0% 83.1%;
+        --chart-1: 220 70% 50%;
+        --chart-2: 160 60% 45%;
+        --chart-3: 30 80% 55%;
+        --chart-4: 280 65% 60%;
+        --chart-5: 340 75% 55%;
+    }
+}
+
+@layer components {
+    .glass-card {
+        @apply bg-card bg-opacity-80 backdrop-blur-sm border border-[color: var(--border)] rounded-xl;
+    }
+    .btn-primary {
+        @apply bg-primary hover: bg-primary-hover text-white font-medium py-3 px-8 rounded-lg transition-all shadow-md hover: shadow-lg;
+    }
+    .btn-secondary {
+        @apply border border-[color: var(--border)] bg-transparent hover: bg-card-hover text-white font-medium py-3 px-8 rounded-lg transition-all;
+    }
+    .animated-gradient {
+        background: linear-gradient(-45deg, #6c63ff, #5046e5, #3730a3, #4338ca);
+        background-size: 400% 400%;
+        animation: gradient 15s ease infinite;
+    }
+    @keyframes gradient {
+        0% {
+            background-position: 0% 50%;
+        }
+        50% {
+            background-position: 100% 50%;
+        }
+        100% {
+            background-position: 0% 50%;
+        }
+    }
+    .glow {
+        filter: drop-shadow(0 0 0.75rem rgba(108, 99, 255, 0.5));
+    }
+    /* New classes for the landing page */
+    .landing-heading {
+        @apply text-6xl md: text-8xl font-bold tracking-tight leading-[1.1] text-white;
+    }
+    .landing-subheading {
+        @apply text-2xl md: text-3xl font-bold mb-6 text-white;
+    }
+    .landing-paragraph {
+        @apply text-base md: text-lg text-gray-300 max-w-2xl mx-auto;
+    }
+    .landing-card {
+        @apply bg-gray-900/70 backdrop-blur-md border border-gray-800 rounded-lg p-6 hover: border-purple-light/30 transition-all duration-300;
+    }
+    .landing-button {
+        @apply bg-white hover: bg-gray-200 text-purple-dark font-medium py-2 px-6 rounded-md transition-all duration-300;
+    }
+    .get-access-input {
+        @apply bg-gray-800/50 border border-gray-700 text-white rounded-md py-2 px-4 w-full focus: outline-none focus: ring-2 focus: ring-purple-light;
+    }
+    .faq-item {
+        @apply border-b border-gray-800 py-6 cursor-pointer;
+    }
+    .faq-question {
+        @apply flex justify-between items-center w-full text-left text-white font-medium;
+    }
+    /* GTA-style animation classes */
+    .main {
+        @apply w-full;
+        transform: rotate(-10deg) scale(1.7);
+    }
+    .landing {
+        @apply overflow-hidden relative w-full h-screen bg-black;
+    }
+    .navbar {
+        @apply absolute top-0 left-0 z-10 w-full py-10 px-10;
+    }
+    .logo {
+        @apply flex gap-7;
+    }
+    .lines {
+        @apply flex flex-col gap-[5px];
+    }
+    .line {
+        @apply h-2 bg-white;
+    }
+    .imagesdiv {
+        @apply relative overflow-hidden w-full h-screen;
+    }
+    .sky {
+        @apply absolute top-0 left-0 w-full h-full object-cover;
+        transform: scale(1.5) rotate(-20deg);
+    }
+    .bg {
+        @apply absolute top-0 left-0 w-full h-full object-cover;
+        transform: scale(1.8) rotate(-3deg);
+    }
+    .text {
+        @apply text-white flex flex-col gap-3 absolute top-20 left-1/2;
+        transform: translateX(-50%) scale(1.4) rotate(-10deg);
+    }
+    .character {
+        @apply absolute left-1/2;
+        bottom: -150%;
+        transform: translateX(-50%) scale(3) rotate(-20deg);
+    }
+    .btmbar {
+        @apply text-white absolute bottom-0 left-0 w-full py-12 px-10 bg-gradient-to-t from-black to-transparent;
+    }
+}
+
+@layer base {
+    * {
+        @apply border-border;
+    }
+    body {
+        @apply bg-background text-foreground;
+    }
+}

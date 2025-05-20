@@ -1,0 +1,93 @@
+import { NextRequest, NextResponse } from 'next/server';
+import { db } from '@/lib/prisma';
+
+// Define our response type
+interface HostStatusResponse {
+  isHostActive: boolean;
+  scheduledStart: string;
+  hostName: string;
+  webinarTitle: string;
+}
+
+// This endpoint will check if the host is active for a webinar
+// GET /api/webinars/[id]/host-status
+export async function GET(
+  request: NextRequest,
+  { params }: { params: { id: string } }
+) {
+  try {
+    // Extract id from params
+    const webinarId = params.id;
+    
+    // Check if webinar exists
+    const webinar = await db.webinar.findUnique({
+      where: { id: webinarId }
+    });
+    
+    if (!webinar) {
+      return NextResponse.json({ error: 'Webinar not found' }, { status: 404 });
+    }
+    
+    // In a real-world scenario, you would check if the host is actually connected
+    // For now, we'll simulate this with a check on scheduled time
+    const now = new Date();
+    const webinarStart = new Date(webinar.scheduledAt);
+    
+    // Let's say the host is automatically considered active 5 minutes before the scheduled time
+    const hostJoinWindow = new Date(webinarStart);
+    hostJoinWindow.setMinutes(hostJoinWindow.getMinutes() - 5);
+    
+    // For testing purposes, you might want to use a different rule
+    // Uncomment this line to simulate a host that's not yet active
+    // return NextResponse.json({ isHostActive: false });
+    
+    const isHostActive = now >= hostJoinWindow;
+    
+    // For development purposes, we'll add a random element to simulate the host joining at different times
+    // You can remove this in production and implement real host activity tracking
+    const randomFactor = Math.random() > 0.3; // 70% chance the host is active    // Create the response object with proper typing
+    const responseData: HostStatusResponse = {
+      isHostActive: isHostActive && randomFactor,
+      scheduledStart: webinarStart.toISOString(),
+      hostName: webinar.hostName || 'The host',
+      webinarTitle: webinar.title,
+    };
+
+    return NextResponse.json(responseData);
+    
+  } catch (error) {
+    console.error('Error checking host status:', error);
+    return NextResponse.json(
+      { error: 'Failed to check host status' },
+      { status: 500 }
+    );
+  }
+}
+
+// This endpoint will allow the host to set their active status
+// POST /api/webinars/[id]/host-status
+export async function POST(
+  request: NextRequest,
+  { params }: { params: { id: string } }
+) {
+  try {
+    // Extract id from params properly for Next.js App Router
+    const webinarId = await Promise.resolve(params.id);
+    const { isActive } = await request.json();
+    
+    // In a real app, you would store this in a database or in-memory state
+    // For now, we'll just return the status
+    
+    return NextResponse.json({
+      isHostActive: isActive,
+      webinarId,
+    });
+    
+  } catch (error) {
+    console.error('Error updating host status:', error);
+    return NextResponse.json(
+      { error: 'Failed to update host status' },
+      { status: 500 }
+    );
+  }
+}

@@ -1,0 +1,10 @@
+-- AlterTable
+ALTER TABLE "Attendee" ALTER COLUMN "email" DROP DEFAULT;
+
+-- AlterTable
+ALTER TABLE "User" ALTER COLUMN "updatedAt" DROP DEFAULT;
+
+-- AlterTable
+ALTER TABLE "Webinar" ALTER COLUMN "scheduledAt" DROP DEFAULT,
+ALTER COLUMN "duration" DROP DEFAULT,
+ALTER COLUMN "updatedAt" DROP DEFAULT;
